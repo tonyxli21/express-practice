@@ -44,7 +44,9 @@ router.post("/", (req, res) => {
   // Add new Member to array
   members.push(newMember);
   // Send response
-  res.json(members);
+  // res.json(members);
+
+  res.redirect("/");
 });
 
 // Update Member
@@ -81,7 +83,7 @@ router.delete("/:id", (req, res) => {
 
   if (found) {
     // Use request object to get member info
-    // Filter out member with specified id
+    // Filter out one member with specified id
     res.json({
       msg: "Member deleted",
       members: members.filter(member => member.id !== parseInt(req.params.id))

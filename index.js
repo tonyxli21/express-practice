@@ -2,6 +2,9 @@ const express = require("express");
 // Import path module (Node.js module that deals with file paths)
 const path = require("path");
 // const logger = require("./middleware/logger");
+const exphbs = require("express-handlebars");
+
+const members = require("./Members");
 
 // Initialize variable
 const app = express();
@@ -12,8 +15,23 @@ app.use(express.json());
 // Allows us to handle form submissions (url-encoded data)
 app.use(express.urlencoded({ extended: false }));
 
+// Create route to render index handlebars view
+// Homepage Route
+app.get("/", (req, res) =>
+  res.render("index", {
+    title: "Member App",
+    // members: members (same thing)
+    members
+  })
+);
+
 // Initialize middleware
 // app.use(logger);
+
+// Handlebars middleware
+// Set template engine (found in documentation)
+app.engine("handlebars", exphbs.engine({ defaultLayout: "main" }));
+app.set("view engine", "handlebars");
 
 // Create routes
 // Specify type of request we want to handle
@@ -39,3 +57,5 @@ const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
 
 // Must create routes/endpoints before we can load anything
+
+// Create form so we can make a request to our API to add a member from the form
